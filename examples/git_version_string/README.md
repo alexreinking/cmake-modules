@@ -8,7 +8,7 @@ To build without needing to install cmrk, use the following command (on Linux):
 $ cmake -G Ninja -S . -B build -DCMAKE_MODULE_PATH=$PWD/..
 $ cmake --build build
 $ ./build/example
-version 1.24.3
+version 1.42.3
 ```
 
 The parent directory contains a shim `Findcmrk.cmake` script that redirects to
@@ -37,7 +37,7 @@ And we'll re-configure and re-build anew:
 $ cmake -G Ninja -S . -B build -DCMAKE_MODULE_PATH=$PWD/.. -UEXAMPLE_VERSION_STRING
 $ cmake --build build
 $ ./build/example
-version 1.24.3 (git~foobar)
+version 1.42.3 (git~foobar)
 ```
 
 Then add a few dummy commits:
@@ -52,13 +52,13 @@ Repeat the above steps and then see:
 
 ```
 $ ./build/example
-version 1.24.3 (git~foobar-3-...)
+version 1.42.3 (git~foobar-3-ge60020f)
 ```
 
 Finally, let's tag this commit with the exact version number:
 
 ```
-$ git tag 1.24.3
+$ git tag 1.42.3
 ```
 
 Now reconfigure and rebuild (don't forget to delete the cache variable with
@@ -66,8 +66,12 @@ Now reconfigure and rebuild (don't forget to delete the cache variable with
 
 ```
 $ ./build/example
-version 1.24.3
+version 1.42.3
 ```
 
 Now that the tag exactly matches the version, the string does not contain
-`(git~1.24.3)` redundantly.
+`(git~1.42.3)` redundantly. Finally, delete the git repository we used to test:
+
+```
+$ rm -rf .git
+```
