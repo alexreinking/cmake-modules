@@ -75,3 +75,5 @@ Now that the tag exactly matches the version, the string does not contain
 ```
 $ rm -rf .git
 ```
+
+The above instructions are provided in `test.sh` here.
