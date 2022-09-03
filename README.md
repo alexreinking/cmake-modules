@@ -6,7 +6,19 @@ CMRK = CMake ReinKing modules. I am an egomaniac (but also open to better names)
 
 Requires CMake 3.22+. Subject to rapid updates and changes while on [major version 0](https://semver.org/#spec-item-4).
 
-## Setup
+## Building
+
+Building a package is straightforward since it's all pure CMake code:
+
+```
+$ cmake -S . -B build
+$ cmake --install build --prefix /path/to/install
+```
+
+You can also use `cmrk` as a git submodule with `add_subdirectory` or via
+`FetchContent`. More on the latter below.
+
+## Using cmrk
 
 ### Find package
 
@@ -16,7 +28,7 @@ project(example)
 
 find_package(cmrk REQUIRED)
 
-# ... include() cmrk modules here ...
+# ... call cmrk_* functions here ...
 ```
 
 ### FetchContent
@@ -35,7 +47,7 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(cmrk)
 
-# ... include() cmrk modules here ...
+# ... call cmrk_* functions here ...
 ```
 
 ## API documentation
