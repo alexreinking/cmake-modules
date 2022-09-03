@@ -3,6 +3,6 @@
 #include <iostream>
 
 int main(int argc, char *argv[]) {
-  std::cout << argv[0] << " version " << EXAMPLE_VERSION_STRING << "\n";
+  std::cout << "version " << EXAMPLE_VERSION_STRING << "\n";
   return 0;
 }
