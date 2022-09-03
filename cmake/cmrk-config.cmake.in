@@ -1,0 +1,12 @@
+cmake_minimum_required(VERSION 3.22)
+
+@PACKAGE_INIT@
+
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}")
+
+set(CMRK_MODULES "@CMRK_MODULES@")
+foreach (module IN ITEMS CMRK_MODULES)
+  include("${module}")
+endforeach ()
+
+check_required_components(cmrk)
