@@ -1,0 +1,8 @@
+#pragma once
+
+#ifndef EXAMPLE_CONFIG_H
+#define EXAMPLE_CONFIG_H
+
+#cmakedefine EXAMPLE_VERSION_STRING "@EXAMPLE_VERSION_STRING@"
+
+#endif
