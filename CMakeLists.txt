@@ -11,6 +11,7 @@ option(cmrk_INSTALL_RULES "Include the cmrk install rules" "${PROJECT_IS_TOP_LEV
 
 set(CMRK_MODULES
     BundleStatic
+    CopyRuntimeDLLs
     GitVersionString
     Option
     TargetExportScript

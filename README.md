@@ -87,6 +87,36 @@ directories `.git` and `.git/refs/tags`; this can be avoided with
 
 For an example, see [examples/git_version_string](./examples/git_version_string).
 
+### `cmrk_copy_runtime_dlls`
+
+```
+cmrk_copy_runtime_dlls(
+  <target>
+)
+```
+
+Adds a `POST_BUILD` command that copies the runtime DLLs for `<target>` to the
+same directory as `<target>`. The command is only added if the target is a DLL
+platform and if `<target>` is a shared or module library, or an executable.
+
+The set of runtime DLLs is determined by `$<TARGET_RUNTIME_DLLS:target>`, and
+therefore only detects DLL dependencies via the CMake-target dependency graph.
+Libraries that are linked via raw flags will not be detected.
+
+This command is idempotent. It will not add the same command to the same target
+twice.
+
+Example:
+
+```
+find_package(ZLIB REQUIED)
+
+add_executable(my_app main.cpp)
+target_link_libraries(my_app PRIVATE ZLIB::ZLIB)
+
+cmrk_copy_runtime_dlls(my_app)
+```
+
 ### `cmrk_option`
 
 ```
