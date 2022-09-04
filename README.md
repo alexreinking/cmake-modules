@@ -58,6 +58,7 @@ FetchContent_MakeAvailable(cmrk)
 cmrk_git_version_string(
   OUTPUT_VARIABLE <var-name>
   [REQUIRED]
+  [NO_CONFIGURE_DEPENDS]
   [TEMPLATE <string>]
 )
 ```
@@ -74,11 +75,15 @@ The overall operation is as follows:
 5. If `GIT_VERSION` is identical to `PROJECT_VERSION`, write `${PROJECT_VERSION}` to `<var-name>` and return normally.
 6. Otherwise, interpret `TEMPLATE` as an `@ONLY` configuration string and write the result to `<var-name>`.
 
-The default `TEMPLATE` is `@PROJECT_VERSION@ (git~@GIT_VERSION@)`
+The default `TEMPLATE` is `@PROJECT_VERSION@ (git~@GIT_VERSION@)`.
 
 The meaning of "bail" is determined by the `REQUIRED` argument. If it is set,
 then a fatal error is issued and configuration stops. Otherwise, `<var-name>`
 is set to `${PROJECT_VERSION}`.
+
+By default, this function adds dependencies to the configure step on the
+directories `.git` and `.git/refs/tags`; this can be avoided with
+`NO_CONFIGURE_DEPENDS`.
 
 For an example, see [examples/git_version_string](./examples/git_version_string).
 

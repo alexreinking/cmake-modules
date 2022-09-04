@@ -2,7 +2,7 @@
 
 set -e
 
-trap cleanup 1 2 3 6
+trap cleanup EXIT
 
 cleanup () {
   echo "Cleaning up..."
@@ -13,28 +13,29 @@ run_test () {
   echo "-----------------------------------------------"
   echo "-- $1"
   echo
-  cmake -G Ninja -S . -B build -DCMAKE_MODULE_PATH=$PWD/.. -UEXAMPLE_VERSION_STRING >/dev/null
-  cmake --build build >/dev/null
+  cmake --build build
   ./build/example
   echo
 }
 
-run_test "No git repo"
+cmake -G Ninja -S . -B build -DCMAKE_MODULE_PATH=$PWD/.. >/dev/null
+run_test "No git repo (fresh)"
 
 git init >/dev/null 2>&1
 git add . >/dev/null
 git commit -m "initial commit" >/dev/null
-run_test "Initial git repo"
+cmake -G Ninja -S . -B build -DCMAKE_MODULE_PATH=$PWD/.. >/dev/null
+run_test "Initial git repo (fresh)"
 
 git tag foobar >/dev/null
-run_test "After tagging with foobar"
+run_test "After tagging with foobar (incremental)"
 
 git commit --allow-empty -m "poke" >/dev/null
 git commit --allow-empty -m "poke" >/dev/null
 git commit --allow-empty -m "poke" >/dev/null
-run_test "After committing three times"
+run_test "After committing three times (incremental)"
 
 git tag 1.42.3 >/dev/null
-run_test "After tagging with 1.42.3 (to match version)"
+run_test "After tagging with 1.42.3 (incremental)"
 
-cleanup
+run_test "No change (incremental)"

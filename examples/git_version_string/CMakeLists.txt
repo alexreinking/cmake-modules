@@ -6,6 +6,7 @@ find_package(cmrk REQUIRED)
 cmrk_option(
   NAME EXAMPLE_VERSION_STRING
   DOC "The version string to print"
+  NO_CACHE
   DEFAULT_FN cmrk_git_version_string
 )
 

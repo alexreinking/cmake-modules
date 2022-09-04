@@ -1,7 +1,7 @@
 include("${CMAKE_CURRENT_LIST_DIR}/internal/BailMacro.cmake")
 
 function(cmrk_git_version_string)
-  cmake_parse_arguments(ARG "REQUIRED" "OUTPUT_VARIABLE;TEMPLATE" "" ${ARGN})
+  cmake_parse_arguments(ARG "REQUIRED;NO_CONFIGURE_DEPENDS" "OUTPUT_VARIABLE;TEMPLATE" "" ${ARGN})
 
   list(APPEND CMAKE_MESSAGE_CONTEXT "${CMAKE_CURRENT_FUNCTION}")
 
@@ -25,6 +25,14 @@ function(cmrk_git_version_string)
     set(ARG_TEMPLATE "@PROJECT_VERSION@ (git~@GIT_VERSION@)")
   endif ()
 
+  if (NOT ARG_NO_CONFIGURE_DEPENDS)
+    set_property(
+      DIRECTORY . APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS
+      "${PROJECT_SOURCE_DIR}/.git"
+      "${PROJECT_SOURCE_DIR}/.git/refs/tags"
+    )
+  endif ()
+
   execute_process(
     COMMAND "${GIT_EXECUTABLE}" -C "${PROJECT_SOURCE_DIR}" describe --tags
     RESULT_VARIABLE GIT_VERSION_RESULT
@@ -41,5 +49,6 @@ function(cmrk_git_version_string)
   else ()
     _cmrk_bail("`git describe --tags` failed! code ${GIT_VERSION_RESULT}: ${GIT_VERSION_ERROR}")
   endif ()
+
   set("${ARG_OUTPUT_VARIABLE}" "${output_value}" PARENT_SCOPE)
 endfunction()
