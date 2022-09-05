@@ -159,3 +159,25 @@ This function pairs nicely with `execute_process` and `cmrk_git_version_string`,
 among others.
 
 For an example, see [examples/git_version_string](./examples/git_version_string).
+
+### `cmrk_debug_print_variables`
+
+```
+cmrk_debug_print_variables(
+  [NO_VALUES]
+  [INCLUDE_REGEX <regex>]
+  [EXCLUDE_REGEX <regex>]
+)
+```
+
+Prints the names and values of all variables matching `INCLUDE_REGEX` and not
+matching `EXCLUDE_REGEX`. By default, these are `.*` and `^$`, respectively, so
+that every variable will be printed.
+
+If `NO_VALUES` is set, then just the names (and, for cache variables, types)
+will be printed.
+
+This function displays its output in three sorted sections: (1) cache entries,
+(2) exclusively normal variables, and (3) normal variables which shadow a cache
+variable with a _different_ value. Normal variables that shadow a cache
+variable with the _same_ value are not shown.
